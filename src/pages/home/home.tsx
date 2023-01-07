@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useQuery, useLazyQuery } from "@apollo/client";
+import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
 
 import Layout from "../../components/layout/layout";
 import CharacterCard from "../../components/characterCard/characterCard";
@@ -14,14 +14,11 @@ import CharactersList from "../../components/charactersList/charactersList";
 const Home = () => {
   const [pageIndex, setPageIndex] = useState(1);
 
-  const { data, error, loading, refetch, previousData } = useQuery(
-    GET_CHARACTERS,
-    {
-      variables: {
-        page: pageIndex,
-      },
-    }
-  );
+  const { data, error, loading, refetch } = useQuery(GET_CHARACTERS, {
+    variables: {
+      page: pageIndex,
+    },
+  });
 
   const fetchNextPage = () => {
     // don't query if we already on the last page
