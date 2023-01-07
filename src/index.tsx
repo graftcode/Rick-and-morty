@@ -1,11 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
 
 import "./index.css";
 import App from "./App";
 
 import "./App.css";
+
+const theme = {
+  // used coolors.co random color generator
+  colors: {
+    magnolia: "#fcf7ffff",
+    "silver-sand": "#c4cad0ff",
+    "battleship-grey": "#878c8fff",
+    "heliotrope-gray": "#a4969bff",
+    "dark-liver": "#655560ff",
+  },
+};
 
 const client = new ApolloClient({
   uri: "https://rickandmortyapi.com/graphql",
@@ -18,8 +31,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </ApolloProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
