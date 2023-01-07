@@ -9,6 +9,7 @@ import { ICharacterData } from "../../interfaces/ICharacterData";
 import Spinner from "../../components/spinner/spinner";
 import Button from "../../components/button/button";
 import { PageIndex, PaginationContainer } from "./home.styles";
+import CharactersList from "../../components/charactersList/charactersList";
 
 const Home = () => {
   const [pageIndex, setPageIndex] = useState(1);
@@ -50,30 +51,20 @@ const Home = () => {
   return (
     <Layout>
       <h1>HOMEPAGE</h1>
-      {/* RickAnDMOrtCharacters section pagination buttons at the top*/}
-
       <PaginationContainer>
         <Button handleClick={fetchPreviousPage} buttonText="Previous" />
         <PageIndex>{pageIndex}</PageIndex>
         <Button handleClick={fetchNextPage} buttonText="Next" />
       </PaginationContainer>
 
-      <Spinner />
-      {loading && <Spinner />}
-      {error && <h2>There has been an error</h2>}
-      {data &&
-        [
-          {
-            id: "1233",
-            name: "Test Enzyme",
-            status: "pending",
-            gender: "unknown",
-            created: Date.now().toString(),
-            image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-          },
-        ].map((character: ICharacterData) => (
-          <CharacterCard key={character.id} {...character} />
-        ))}
+      <CharactersList>
+        {loading && <Spinner />}
+        {error && <h2>There has been an error</h2>}
+        {data &&
+          data.characters.results.map((character: ICharacterData) => (
+            <CharacterCard key={character.id} {...character} />
+          ))}
+      </CharactersList>
     </Layout>
   );
 };

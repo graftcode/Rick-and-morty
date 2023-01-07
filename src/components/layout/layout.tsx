@@ -6,7 +6,7 @@ import { rem } from "polished";
 const Container = styled.section`
   max-width: ${rem(1400)};
   margin: auto;
-  padding: ${rem(30)};
+  padding: ${rem(32)} ${rem(16)};
 `;
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

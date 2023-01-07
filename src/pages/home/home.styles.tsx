@@ -15,4 +15,5 @@ export const PaginationContainer = styled.div`
   align-items: center;
   gap: 20px;
   max-width: ${rem(800)};
+  margin: 0 auto ${rem(50)};
 `;
