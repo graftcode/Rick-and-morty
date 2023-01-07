@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 
+import Layout from "../components/layout/layout";
 import CharacterCard from "../components/characterCard/characterCard";
 
 import { getCharacters } from "../graphql/Queries";
@@ -15,9 +16,9 @@ const Home = () => {
   }, [data]);
 
   return (
-    <section>
+    <Layout>
       <h1>HOMEPAGE</h1>
-      {/* RickAnDMOrtCharacters section */}
+      {/* RickAnDMOrtCharacters section pagination buttons at the top*/}
       {[
         {
           id: "1233",
@@ -30,7 +31,7 @@ const Home = () => {
       ].map((character: ICharacterData) => (
         <CharacterCard key={character.id} {...character} />
       ))}
-    </section>
+    </Layout>
   );
 };
 
