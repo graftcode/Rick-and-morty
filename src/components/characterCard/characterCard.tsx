@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card } from "./characterCard.styles";
+import { Card, Image, ListItem, Name } from "./characterCard.styles";
 
 import { ICharacterData } from "../../interfaces/ICharacterData";
 
@@ -13,13 +13,25 @@ const CharacterCard: React.FC<ICharacterData> = ({
 }) => {
   return (
     <Card>
-      <div>
-        {name}
-        {gender}
-        {status}
-        {created}
-        <img src={imageUrl} />
-      </div>
+      <Name>{name}</Name>
+      <ul>
+        <ListItem>
+          <strong>Gender:</strong>
+          <br />
+          {gender}
+        </ListItem>
+        <ListItem>
+          <strong>Status:</strong>
+          <br />
+          {status}
+        </ListItem>
+        <ListItem>
+          <strong>Created:</strong>
+          <br />
+          {created}
+        </ListItem>
+      </ul>
+      <Image src={imageUrl} />
     </Card>
   );
 };
