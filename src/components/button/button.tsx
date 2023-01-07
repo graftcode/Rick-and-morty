@@ -13,11 +13,11 @@ const ButtonContainer = styled.button`
   border-radius: ${rem(8)};
   color: ${({ theme }) => theme.colors.magnolia};
   cursor: pointer;
-  font-size: ${rem(32)};
+  font-size: ${rem(24)};
   font-weight: 700;
-  padding: ${rem(20)} ${rem(10)};
+  padding: ${rem(10)} ${rem(5)};
   max-width: ${rem(200)};
-  width: ${rem(200)};
+  width: ${rem(150)};
   &:hover {
     border: solid #5d5f60 ${rem(5)};
   }
