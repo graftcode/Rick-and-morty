@@ -25,12 +25,3 @@ export const GET_CHARACTERS = gql`
     }
   }
 `;
-
-const GET_DOG_PHOTO = gql`
-  query Dog($breed: String!) {
-    dog(breed: $breed) {
-      id
-      displayImage
-    }
-  }
-`;
