@@ -12,7 +12,6 @@ export const Card = styled.div`
   text-align: center;
   padding: ${rem(10)};
   color: ${({ theme }) => theme.colors.magnolia};
-  /* width: 100%; */
 
   ul {
     padding: 0;

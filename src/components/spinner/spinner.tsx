@@ -5,6 +5,7 @@ import styled from "styled-components";
 const SpinnerContainer = styled.div`
   height: ${rem(100)};
   width: ${rem(100)};
+  margin: auto;
   &::before {
     content: " ";
     display: block;
@@ -15,6 +16,7 @@ const SpinnerContainer = styled.div`
     border: ${rem(6)} solid ${({ theme }) => theme.colors["battleship-grey"]};
     border-color: ${({ theme }) => theme.colors["battleship-grey"]} transparent;
     animation: spin 1.2s linear infinite;
+   
 
     @keyframes spin {
       0% {

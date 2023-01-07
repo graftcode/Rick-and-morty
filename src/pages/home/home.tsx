@@ -56,10 +56,9 @@ const Home = () => {
         <PageIndex>{pageIndex}</PageIndex>
         <Button handleClick={fetchNextPage} buttonText="Next" />
       </PaginationContainer>
-
+      {loading && <Spinner />}
+      {error && <h2>There has been an error</h2>}
       <CharactersList>
-        {loading && <Spinner />}
-        {error && <h2>There has been an error</h2>}
         {data &&
           data.characters.results.map((character: ICharacterData) => (
             <CharacterCard key={character.id} {...character} />
