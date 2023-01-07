@@ -1,1 +1,1 @@
-export * from "./getCharacters";
+export * from "./GET_CHARACTERS";

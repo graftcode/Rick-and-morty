@@ -2,10 +2,10 @@ import { gql } from "@apollo/client";
 
 // The API will automatically paginate the responses. You will receive up to 20 documents per page.
 // List Rick & Morty characters using pagination. Page size should be limited to 20 items per page.
-export const getCharacters = gql`
-  query {
+export const GET_CHARACTERS = gql`
+  query GetCharacters($page: Int) {
     # page needs to be passed in dynamically
-    characters(page: 1) {
+    characters(page: $page) {
       info {
         count
         pages
@@ -22,6 +22,15 @@ export const getCharacters = gql`
         # url
         created
       }
+    }
+  }
+`;
+
+const GET_DOG_PHOTO = gql`
+  query Dog($breed: String!) {
+    dog(breed: $breed) {
+      id
+      displayImage
     }
   }
 `;
