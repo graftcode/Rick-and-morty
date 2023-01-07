@@ -1,4 +1,5 @@
 import React from "react";
+import { format } from "date-fns";
 
 import {
   Card,
@@ -35,7 +36,8 @@ const CharacterCard: React.FC<ICharacterData> = ({
           <ListItem>
             <strong>Created:&nbsp;</strong>
             <br />
-            {created}
+
+            {format(new Date(created), "dd/MM/yyyy")}
           </ListItem>
         </ul>
         <Image src={imageUrl} />
