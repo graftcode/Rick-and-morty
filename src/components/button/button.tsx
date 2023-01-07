@@ -8,12 +8,18 @@ interface ButtonProps {
 }
 
 const ButtonContainer = styled.button`
+  font-size: ${rem(16)};
+
+  @media (min-width: ${rem(500)}) {
+    font-size: ${rem(24)};
+  }
+
   background: ${({ theme }) => theme.colors["battleship-grey"]};
   border: solid transparent ${rem(5)};
   border-radius: ${rem(8)};
   color: ${({ theme }) => theme.colors.magnolia};
   cursor: pointer;
-  font-size: ${rem(24)};
+
   font-weight: 700;
   padding: ${rem(10)} ${rem(5)};
   max-width: ${rem(200)};

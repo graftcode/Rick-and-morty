@@ -9,35 +9,50 @@ export const Card = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  text-align: center;
-  padding: ${rem(10)};
   color: ${({ theme }) => theme.colors.magnolia};
 
   ul {
-    padding: 0;
-  }
-
-  * {
-    font-size: ${rem(16)};
+    padding: ${rem(10)};
+    text-align: left;
+    align-self: flex-start;
   }
 `;
 
 export const Name = styled.h3`
   padding: 0 ${rem(10)};
-  margin: 0 auto ${rem(16)};
-
+  margin: ${rem(16)} auto;
+  font-size: ${rem(20)};
+  text-align: center;
   @media (min-width: ${rem(500)}) {
-    font-size: ${rem(24)};
-    margin: 0;
+    font-size: ${rem(32)};
   }
 `;
 
 export const Image = styled.img`
-  max-width: ${rem(100)};
-  height: ${rem(130)};
-  @media (min-width: ${rem(500)}) {
-    margin: auto;
-  }
+  width: 100%;
+  height: 100%;
+`;
+
+export const StatusIcon = styled.span<{ status?: string }>`
+  display: inline-block;
+  height: ${rem(10)};
+  width: ${rem(10)};
+  margin: ${rem(2)} ${rem(7)} 0 0;
+  padding: ${rem(1)};
+  background: ${({ status }) => {
+    if (status === "unknown") {
+      return "lightgrey";
+    }
+
+    if (status === "Alive") {
+      return "lightgreen";
+    }
+
+    if (status === "Dead") {
+      return "red";
+    }
+  }};
+  border-radius: 50%;
 `;
 
 export const ListItem = styled.li`
@@ -46,25 +61,8 @@ export const ListItem = styled.li`
   font-weight: 500;
   display: flex;
 
-  br {
-    display: none;
-  }
-
   @media (min-width: ${rem(500)}) {
     display: block;
     font-size: ${rem(24)};
-    br {
-      display: block;
-    }
-  }
-`;
-
-export const InfoWrapper = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  width: 100%;
-  @media (min-width: ${rem(500)}) {
-    flex-direction: column;
   }
 `;

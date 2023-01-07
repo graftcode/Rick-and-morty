@@ -9,16 +9,14 @@ const Container = styled.div`
   width: 100%;
   gap: ${rem(16)};
 
-  @media (min-width: ${rem(500)}) {
+  @media (min-width: ${rem(700)}) {
     grid-template-columns: 1fr 1fr;
   }
 
-  @media (min-width: ${rem(500)}) {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
+
 
   @media (min-width: ${rem(1100)}) {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 `;
 
