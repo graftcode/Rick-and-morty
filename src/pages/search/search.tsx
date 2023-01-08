@@ -10,14 +10,14 @@ import CharactersList from "../../components/charactersList/charactersList";
 import CharacterCard from "../../components/characterCard/characterCard";
 import Layout from "../../components/layout/layout";
 
-import FilterIcon from "../../assets/filter-icon.png";
-import SearchIcon from "../../assets/search-icon.png";
+import FilterIcon from "../../assets/filterIcon.png";
+import SearchIcon from "../../assets/searchIcon.png";
 
 import Dropdowon from "../../components/dropdown/dropdown";
 import Spinner from "../../components/spinner/spinner";
 
 import { ICharacterData } from "../../interfaces/ICharacterData";
-import { DROPDOWN_OPTIONS } from "../../consts/dropdown-options";
+import { DROPDOWN_OPTIONS } from "../../consts/dropdownOptions";
 import { useGetCharacters } from "../../hooks/useGetCharacters";
 
 const Search = () => {
