@@ -17,7 +17,7 @@ import SearchIcon from "../../assets/search-icon.png";
 import Dropdowon from "../../components/dropdown/dropdown";
 import Spinner from "../../components/spinner/spinner";
 
-import { SEARCH_CHARACTER } from "../../graphql/Queries";
+import { GET_CHARACTERS } from "../../graphql/Queries";
 import { ICharacterData } from "../../interfaces/ICharacterData";
 import { DROPDOWN_OPTIONS } from "../../consts/dropdown-options";
 
@@ -26,8 +26,8 @@ const Search = () => {
   const [filterObject, setFilterObject] = useState({});
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
-  const [SearchCharacter, { called, loading, data, error }] =
-    useLazyQuery(SEARCH_CHARACTER);
+  const [SearchCharacter, { loading, data, error }] =
+    useLazyQuery(GET_CHARACTERS);
 
   const handleSubmit = (e: React.SyntheticEvent): void => {
     e.preventDefault();

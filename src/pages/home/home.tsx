@@ -23,24 +23,14 @@ const Home = () => {
         page: pageIndex,
       },
     });
-  }, []);
+  }, [getCharacters, pageIndex]);
 
-  const fetchNextPage = () => {
+  const fetchNextPage = (): void => {
     setPageIndex(pageIndex + 1);
-    getCharacters({
-      variables: {
-        page: pageIndex + 1,
-      },
-    });
   };
 
-  const fetchPreviousPage = () => {
+  const fetchPreviousPage = (): void => {
     setPageIndex(pageIndex - 1);
-    getCharacters({
-      variables: {
-        page: pageIndex - 1,
-      },
-    });
   };
 
   return (
