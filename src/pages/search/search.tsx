@@ -9,7 +9,6 @@ import {
 import CharactersList from "../../components/charactersList/charactersList";
 import CharacterCard from "../../components/characterCard/characterCard";
 
-
 import FilterIcon from "../../assets/filterIcon.png";
 import SearchIcon from "../../assets/searchIcon.png";
 
@@ -29,7 +28,7 @@ const Search = () => {
 
   const handleSubmit = (e: React.SyntheticEvent): void => {
     e.preventDefault();
-
+    setInputValue("");
     if (showFilterDropdown) setShowFilterDropdown(false);
 
     SearchCharacter({
@@ -70,10 +69,14 @@ const Search = () => {
             />
           )}
         </SearchBarWrapper>
+        {data && data.characters.results.length === 0 && (
+          <h1>No Characters found!</h1>
+        )}
       </FormContainer>
 
       <CharactersList>
         {data &&
+          data.characters.results.length > 0 &&
           data.characters.results.map((character: ICharacterData) => (
             <CharacterCard key={character.id} {...character} />
           ))}
