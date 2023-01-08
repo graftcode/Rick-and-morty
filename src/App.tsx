@@ -5,17 +5,16 @@ import Home from "./pages/home/home";
 import Search from "./pages/search/search";
 
 import "./App.css";
-// import Navigation from "./components/navigation/navigation";
+import Navigation from "./components/navigation/navigation";
 
 const App = (): JSX.Element => {
   return (
     <div className="App">
-      {/* <Navigation /> */}
+      <Navigation />
       <h1>Rick and Morty</h1>
-      <Search />
       <Routes>
         <Route element={<Home />} index />
-        {/* <Route element={<Search />} path="/search" /> */}
+        <Route element={<Search />} path="/search" />
       </Routes>
     </div>
   );
