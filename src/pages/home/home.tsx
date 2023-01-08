@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { useLazyQuery } from "@apollo/client";
 
 import Layout from "../../components/layout/layout";
 import CharacterCard from "../../components/characterCard/characterCard";
@@ -12,24 +12,35 @@ import { PageIndex, PaginationContainer } from "./home.styles";
 import CharactersList from "../../components/charactersList/charactersList";
 
 const Home = () => {
-  const [pageIndex, setPageIndex] = useState(1);
+  const [pageIndex, setPageIndex] = useState<number>(1);
 
-  const { data, error, loading, refetch } = useQuery(GET_CHARACTERS, {
-    variables: {
-      page: pageIndex,
-    },
-  });
+  const [getCharacters, { data, error, loading }] =
+    useLazyQuery(GET_CHARACTERS);
+
+  useEffect(() => {
+    getCharacters({
+      variables: {
+        page: pageIndex,
+      },
+    });
+  }, []);
 
   const fetchNextPage = () => {
     setPageIndex(pageIndex + 1);
-    refetch({ page: pageIndex + 1 });
+    getCharacters({
+      variables: {
+        page: pageIndex + 1,
+      },
+    });
   };
 
   const fetchPreviousPage = () => {
-    console.log("data:", data);
-
     setPageIndex(pageIndex - 1);
-    refetch({ page: pageIndex - 1 });
+    getCharacters({
+      variables: {
+        page: pageIndex - 1,
+      },
+    });
   };
 
   return (
