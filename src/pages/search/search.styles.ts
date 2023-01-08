@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { rem } from "polished";
 
-export const SearchFieldButton = styled.button`
+export const SearchFieldButton = styled.button<{ marginLeft?: boolean }>`
   background: none;
   border: none;
   cursor: pointer;
@@ -12,21 +12,26 @@ export const SearchFieldButton = styled.button`
     background: transparent;
     border-radius: ${rem(5)};
   }
+
+  margin-left: ${({ marginLeft }) => (marginLeft ? `${rem(30)}` : "0")};
 `;
 
 export const SearchBarWrapper = styled.div`
   border-bottom: ${rem(2)} solid
     ${({ theme }) => theme.colors["battleship-grey"]};
-  color: #c4ca18;
   display: flex;
   padding: ${rem(10)} 0;
+
 `;
 
-export const Container = styled.div`
-  display: flex;
+export const FormContainer = styled.form`
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   gap: ${rem(30)};
+  margin-bottom: ${rem(50)};
+  position: relative;
 `;
 
 export const StyledInput = styled.input`
