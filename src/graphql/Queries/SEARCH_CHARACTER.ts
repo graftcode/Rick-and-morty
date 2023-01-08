@@ -6,7 +6,7 @@ import { gql } from "@apollo/client";
 export const SEARCH_CHARACTER = gql`
   query SearchCharacter($filter: FilterCharacter) {
     # filter info needs to be passed in dynamically
-    characters(page: $page, filter: $filter) {
+    characters(filter: $filter) {
       info {
         count
         pages
