@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useLazyQuery } from "@apollo/client";
 
 import Layout from "../../components/layout/layout";
 import CharacterCard from "../../components/characterCard/characterCard";
 
-import { GET_CHARACTERS } from "../../graphql/Queries";
 import { ICharacterData } from "../../interfaces/ICharacterData";
 import Spinner from "../../components/spinner/spinner";
 import Button from "../../components/button/button";
 import { PageIndex, PaginationContainer } from "./home.styles";
 import CharactersList from "../../components/charactersList/charactersList";
+import { useGetCharacters } from "../../hooks/useGetCharacters";
 
 const Home = () => {
   const [pageIndex, setPageIndex] = useState<number>(1);
 
-  const [getCharacters, { data, error, loading }] =
-    useLazyQuery(GET_CHARACTERS);
+  const [getCharacters, { data, error, loading }] = useGetCharacters();
 
   useEffect(() => {
     getCharacters({

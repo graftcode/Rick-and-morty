@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useLazyQuery } from "@apollo/client";
 
 import {
   SearchBarWrapper,
@@ -17,17 +16,16 @@ import SearchIcon from "../../assets/search-icon.png";
 import Dropdowon from "../../components/dropdown/dropdown";
 import Spinner from "../../components/spinner/spinner";
 
-import { GET_CHARACTERS } from "../../graphql/Queries";
 import { ICharacterData } from "../../interfaces/ICharacterData";
 import { DROPDOWN_OPTIONS } from "../../consts/dropdown-options";
+import { useGetCharacters } from "../../hooks/useGetCharacters";
 
 const Search = () => {
   const [inputValue, setInputValue] = useState("");
   const [filterObject, setFilterObject] = useState({});
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
-  const [SearchCharacter, { loading, data, error }] =
-    useLazyQuery(GET_CHARACTERS);
+  const [SearchCharacter, { data, error, loading }] = useGetCharacters();
 
   const handleSubmit = (e: React.SyntheticEvent): void => {
     e.preventDefault();
