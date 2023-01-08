@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import Layout from "../../components/layout/layout";
 import CharacterCard from "../../components/characterCard/characterCard";
 
 import { ICharacterData } from "../../interfaces/ICharacterData";
 import Spinner from "../../components/spinner/spinner";
 import Button from "../../components/button/button";
-import { PageIndex, PaginationContainer } from "./home.styles";
+import { PageIndex, PaginationContainer, Title } from "./home.styles";
 import CharactersList from "../../components/charactersList/charactersList";
 import { useGetCharacters } from "../../hooks/useGetCharacters";
 
@@ -32,8 +31,8 @@ const Home = () => {
   };
 
   return (
-    <Layout>
-      <h1>HOMEPAGE</h1>
+    <>
+      <Title>Rick And Morty Archive</Title>
       <PaginationContainer>
         <Button
           disableButton={data?.characters?.info.prev}
@@ -55,7 +54,7 @@ const Home = () => {
             <CharacterCard key={character.id} {...character} />
           ))}
       </CharactersList>
-    </Layout>
+    </>
   );
 };
 

@@ -17,3 +17,10 @@ export const PaginationContainer = styled.div`
   max-width: ${rem(800)};
   margin: 0 auto ${rem(50)};
 `;
+
+export const Title = styled.h1`
+  color: ${({ theme }) => theme.colors["battleship-grey"]};
+  @media (min-width: ${rem(500)}) {
+    font-size: ${rem(32)};
+  }
+`;

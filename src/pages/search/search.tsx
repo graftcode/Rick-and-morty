@@ -8,7 +8,7 @@ import {
 } from "./search.styles";
 import CharactersList from "../../components/charactersList/charactersList";
 import CharacterCard from "../../components/characterCard/characterCard";
-import Layout from "../../components/layout/layout";
+
 
 import FilterIcon from "../../assets/filterIcon.png";
 import SearchIcon from "../../assets/searchIcon.png";
@@ -46,8 +46,7 @@ const Search = () => {
   if (loading) return <Spinner />;
 
   return (
-    <Layout>
-      <h1>Searh</h1>
+    <>
       <FormContainer onSubmit={handleSubmit}>
         <SearchBarWrapper>
           <SearchFieldButton type="submit">
@@ -79,7 +78,7 @@ const Search = () => {
             <CharacterCard key={character.id} {...character} />
           ))}
       </CharactersList>
-    </Layout>
+    </>
   );
 };
 

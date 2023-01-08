@@ -7,8 +7,6 @@ import { ThemeProvider } from "styled-components";
 import "./index.css";
 import App from "./App";
 
-import "./App.css";
-
 const theme = {
   // used coolors.co random color generator
   colors: {

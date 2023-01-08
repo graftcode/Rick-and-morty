@@ -4,19 +4,18 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/home";
 import Search from "./pages/search/search";
 
-import "./App.css";
 import Navigation from "./components/navigation/navigation";
+import Layout from "./components/layout/layout";
 
 const App = (): JSX.Element => {
   return (
-    <div className="App">
+    <Layout>
       <Navigation />
-      <h1>Rick and Morty</h1>
       <Routes>
         <Route element={<Home />} index />
         <Route element={<Search />} path="/search" />
       </Routes>
-    </div>
+    </Layout>
   );
 };
 

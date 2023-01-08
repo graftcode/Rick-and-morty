@@ -6,14 +6,17 @@ export const SearchFieldButton = styled.button<{ marginLeft?: boolean }>`
   border: none;
   cursor: pointer;
   padding: 0;
-  width: ${rem(50)};
+  max-width: ${rem(50)};
   img {
     width: 100%;
     background: transparent;
     border-radius: ${rem(5)};
   }
 
-  margin-left: ${({ marginLeft }) => (marginLeft ? `${rem(30)}` : "0")};
+  margin-left: ${({ marginLeft }) => (marginLeft ? `${rem(15)}` : "0")};
+  @media (min-width: ${rem(500)}) {
+    margin-left: ${({ marginLeft }) => (marginLeft ? `${rem(30)}` : "0")};
+  }
 `;
 
 export const SearchBarWrapper = styled.div`
@@ -21,11 +24,11 @@ export const SearchBarWrapper = styled.div`
     ${({ theme }) => theme.colors["battleship-grey"]};
   display: flex;
   padding: ${rem(10)} 0;
-
+  align-self: flex-end;
 `;
 
 export const FormContainer = styled.form`
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
