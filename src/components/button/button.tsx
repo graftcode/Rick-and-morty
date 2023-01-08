@@ -5,9 +5,10 @@ import styled from "styled-components";
 interface ButtonProps {
   buttonText: string;
   handleClick: () => void;
+  disableButton: boolean;
 }
 
-const ButtonContainer = styled.button`
+const ButtonContainer = styled.button<{ disabled: boolean }>`
   font-size: ${rem(16)};
 
   @media (min-width: ${rem(500)}) {
@@ -27,10 +28,23 @@ const ButtonContainer = styled.button`
   &:hover {
     border: solid #5d5f60 ${rem(5)};
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    `
+    background-color: dimgrey;
+    color: linen;
+    opacity: .5;`}
 `;
 
-const Button: React.FC<ButtonProps> = ({ buttonText, handleClick }) => (
-  <ButtonContainer onClick={handleClick}>{buttonText}</ButtonContainer>
+const Button: React.FC<ButtonProps> = ({
+  buttonText,
+  handleClick,
+  disableButton,
+}) => (
+  <ButtonContainer disabled={!disableButton} onClick={handleClick}>
+    {buttonText}
+  </ButtonContainer>
 );
 
 export default Button;

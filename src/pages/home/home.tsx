@@ -21,25 +21,12 @@ const Home = () => {
   });
 
   const fetchNextPage = () => {
-    // don't query if we already on the last page
-
-    if (pageIndex === data?.characters?.info.pages) {
-      console.log("this is last page");
-      alert("no more pages");
-      return;
-    }
-
     setPageIndex(pageIndex + 1);
     refetch({ page: pageIndex + 1 });
   };
 
   const fetchPreviousPage = () => {
     console.log("data:", data);
-
-    if (!data?.characters?.info.prev && !loading) {
-      alert("no more previous page");
-      return;
-    }
 
     setPageIndex(pageIndex - 1);
     refetch({ page: pageIndex - 1 });
@@ -49,9 +36,17 @@ const Home = () => {
     <Layout>
       <h1>HOMEPAGE</h1>
       <PaginationContainer>
-        <Button handleClick={fetchPreviousPage} buttonText="Previous" />
+        <Button
+          disableButton={data?.characters?.info.prev}
+          handleClick={fetchPreviousPage}
+          buttonText="Previous"
+        />
         <PageIndex>{pageIndex}</PageIndex>
-        <Button handleClick={fetchNextPage} buttonText="Next" />
+        <Button
+          disableButton={data?.characters?.info.next}
+          handleClick={fetchNextPage}
+          buttonText="Next"
+        />
       </PaginationContainer>
       {loading && <Spinner />}
       {error && <h2>There has been an error</h2>}
