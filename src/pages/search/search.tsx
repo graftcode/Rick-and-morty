@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   SearchBarWrapper,
@@ -11,6 +11,12 @@ import FilterIcon from "../../assets/filter-icon.png";
 import SearchIcon from "../../assets/search-icon.png";
 
 const Search = () => {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleSubmit = (): void => {
+    // make gql query here
+  };
+
   return (
     <>
       <h1>Searh</h1>
@@ -19,7 +25,10 @@ const Search = () => {
           <SearchFieldButton>
             <img src={SearchIcon} alt="" />
           </SearchFieldButton>
-          <StyledInput placeholder="Search for character" />
+          <StyledInput
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Search for character"
+          />
         </SearchBarWrapper>
         <SearchBarWrapper>
           <SearchFieldButton>
