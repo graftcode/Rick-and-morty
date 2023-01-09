@@ -4,6 +4,8 @@ import { rem } from "polished";
 export const PageIndex = styled.span`
   color: ${({ theme }) => theme.colors["battleship-grey"]};
   display: inline-block;
+  width: 50px;
+  text-align: center;
   font-size: ${rem(32)};
   font-weight: 700;
   padding: ${rem(5)};
