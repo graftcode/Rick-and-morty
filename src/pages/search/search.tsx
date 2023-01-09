@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import {
   SearchBarWrapper,
@@ -23,13 +24,19 @@ const Search = () => {
   const [inputValue, setInputValue] = useState("");
   const [filterObject, setFilterObject] = useState({});
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [_, setSearchParams] = useSearchParams();
 
   const [SearchCharacter, { data, error, loading }] = useGetCharacters();
 
   const handleSubmit = (e: React.SyntheticEvent): void => {
     e.preventDefault();
-    setInputValue("");
+
+    if (inputValue.length === 0 && Object.keys({ filterObject }).length) {
+      return;
+    }
     if (showFilterDropdown) setShowFilterDropdown(false);
+
+    const paramData: any = { ...filterObject, name: inputValue };
 
     SearchCharacter({
       variables: {
@@ -39,6 +46,14 @@ const Search = () => {
         },
       },
     });
+
+    const queryParamString = Object.keys(paramData)
+      .map((key) => paramData[key] && key + "=" + paramData[key])
+      .join("&")
+      .replace(/.$/, "");
+
+    setSearchParams(queryParamString);
+    setInputValue("");
   };
 
   if (error) return <h1>{error.message}</h1>;

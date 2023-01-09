@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import CharacterCard from "../../components/characterCard/characterCard";
 
@@ -8,7 +9,7 @@ import Button from "../../components/button/button";
 import { PageIndex, PaginationContainer, Title } from "./home.styles";
 import CharactersList from "../../components/charactersList/charactersList";
 import { useGetCharacters } from "../../hooks/useGetCharacters";
-import { useSearchParams } from "react-router-dom";
+
 import { queryParser } from "../../components/helper/queryParser";
 
 const Home = () => {
