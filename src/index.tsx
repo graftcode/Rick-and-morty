@@ -5,17 +5,7 @@ import { ThemeProvider } from "styled-components";
 
 import "./index.css";
 import App from "./App";
-
-const theme = {
-  // used coolors.co random color generator
-  colors: {
-    magnolia: "#fcf7ffff",
-    "silver-sand": "#c4cad0ff",
-    "battleship-grey": "#878c8fff",
-    "heliotrope-gray": "#a4969bff",
-    "dark-liver": "#655560ff",
-  },
-};
+import { theme } from "./theme";
 
 const client = new ApolloClient({
   uri: "https://rickandmortyapi.com/graphql",

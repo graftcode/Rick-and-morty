@@ -42,7 +42,7 @@ const Home = () => {
         setSearchParams(`page=${characters.info.next - 1}`);
       });
     }
-  }, [getCharacters, pageIndex]);
+  }, [getCharacters, pageIndex, setSearchParams, called]);
 
   const fetchNextPage = (): void => {
     setPageIndex(pageIndex + 1);
