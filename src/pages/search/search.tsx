@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import {
@@ -19,24 +19,46 @@ import Spinner from "../../components/spinner/spinner";
 import { ICharacterData } from "../../interfaces/ICharacterData";
 import { DROPDOWN_OPTIONS } from "../../consts/dropdownOptions";
 import { useGetCharacters } from "../../hooks/useGetCharacters";
+import { queryParser } from "../../components/helper/queryParser";
 
 const Search = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [filterObject, setFilterObject] = useState({});
+  const [inputValue, setInputValue] = useState<string>("");
+  const [filterObject, setFilterObject] = useState<{ gender?: string }>({});
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [_, setSearchParams] = useSearchParams();
 
-  const [SearchCharacter, { data, error, loading }] = useGetCharacters();
+  const [SearchCharacter, { data, error, loading, called }] =
+    useGetCharacters();
+
+  //if accepted params available make call after initial render
+  useEffect(() => {
+    const params = queryParser(window.location.href);
+
+    if (!called && (params.name || params.gender)) {
+      setInputValue(params.name);
+      setFilterObject({
+        gender: params.gender,
+      });
+
+      const dataToQuery: any = {};
+      if (params.name) dataToQuery.name = params.name;
+      if (params.gender) dataToQuery.gender = params.gender;
+
+      SearchCharacter({
+        variables: {
+          filter: dataToQuery,
+        },
+      });
+    }
+  }, []);
 
   const handleSubmit = (e: React.SyntheticEvent): void => {
     e.preventDefault();
 
-    if (inputValue.length === 0 && Object.keys({ filterObject }).length) {
+    if (inputValue.length === 0 && filterObject.gender === undefined) {
+      console.log("not making call");
       return;
     }
-    if (showFilterDropdown) setShowFilterDropdown(false);
-
-    const paramData: any = { ...filterObject, name: inputValue };
 
     SearchCharacter({
       variables: {
@@ -47,13 +69,16 @@ const Search = () => {
       },
     });
 
+    const paramData: any = { ...filterObject, name: inputValue };
     const queryParamString = Object.keys(paramData)
       .map((key) => paramData[key] && key + "=" + paramData[key])
       .join("&")
       .replace(/.$/, "");
 
     setSearchParams(queryParamString);
+    if (showFilterDropdown) setShowFilterDropdown(false);
     setInputValue("");
+    setFilterObject({});
   };
 
   if (error) return <h1>{error.message}</h1>;
