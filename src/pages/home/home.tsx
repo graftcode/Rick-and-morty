@@ -5,9 +5,10 @@ import CharacterCard from "../../components/characterCard/characterCard";
 
 import { ICharacterData } from "../../interfaces/ICharacterData";
 import Spinner from "../../components/spinner/spinner";
-import Button from "../../components/button/button";
-import { PageIndex, PaginationContainer, Title } from "./home.styles";
+
+import { Title } from "./home.styles";
 import CharactersList from "../../components/charactersList/charactersList";
+import PaginationContainer from "../../components/paginationContainer/paginationContainer";
 import { useGetCharacters } from "../../hooks/useGetCharacters";
 
 const Home = () => {
@@ -44,19 +45,19 @@ const Home = () => {
     <>
       <Title>Rick And Morty Archive</Title>
       {data && (
-        <PaginationContainer>
-          <Button
-            disableButton={data?.characters?.info.prev}
-            handleClick={fetchPreviousPage}
-            buttonText="Previous"
-          />
-          <PageIndex>{pageIndex}</PageIndex>
-          <Button
-            disableButton={data?.characters?.info.next}
-            handleClick={fetchNextPage}
-            buttonText="Next"
-          />
-        </PaginationContainer>
+        <PaginationContainer
+          nextButton={{
+            disableButton: !!data?.characters?.info.next,
+            handleClick: fetchNextPage,
+            buttonText: "Next",
+          }}
+          previousButton={{
+            disableButton: !!data?.characters?.info.prev,
+            handleClick: fetchPreviousPage,
+            buttonText: "Previous",
+          }}
+          pageIndex={pageIndex}
+        />
       )}
       {loading && <Spinner />}
       {error && <h2>There has been an error</h2>}
