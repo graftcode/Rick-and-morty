@@ -9,6 +9,7 @@ import {
 } from "./search.styles";
 import CharactersList from "../../components/charactersList/charactersList";
 import CharacterCard from "../../components/characterCard/characterCard";
+import PaginationContainer from "../../components/paginationContainer/paginationContainer";
 
 import FilterIcon from "../../assets/filterIcon.png";
 import SearchIcon from "../../assets/searchIcon.png";
@@ -20,6 +21,8 @@ import { ICharacterData } from "../../interfaces/ICharacterData";
 import { DROPDOWN_OPTIONS } from "../../consts/dropdownOptions";
 import { useGetCharacters } from "../../hooks/useGetCharacters";
 
+import { ISetSearchParamData } from "../../interfaces/ISetSearchParamData";
+
 const Search = () => {
   const [searchParams, setSearchParams]: any = useSearchParams();
   const { name, gender } = Object.fromEntries([...searchParams]);
@@ -27,55 +30,82 @@ const Search = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [filterObject, setFilterObject] = useState<{ gender?: string }>({});
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [pageIndex, setPageIndex] = useState<number>(1);
 
-  const [SearchCharacter, { data, error, loading }] = useGetCharacters();
+  const [SearchCharacter, { data, error, loading, called }] =
+    useGetCharacters();
 
   //if accepted params available make call after initial render
   useEffect(() => {
-    if (name || gender) {
+    if (!called && (gender || name)) {
       const dataToQuery: any = {};
       if (name) dataToQuery.name = name;
-      if (gender) dataToQuery.gender = gender;
+      if (gender) dataToQuery.filter = { gender };
 
       SearchCharacter({
         variables: {
-          filter: dataToQuery,
+          filter: { ...dataToQuery },
+          page: 1,
         },
+      }).then((res) => {
+        const queryParamsToSet: ISetSearchParamData = {};
+        if (name) queryParamsToSet.name = name;
+        if (gender) queryParamsToSet.gender = gender;
+        setSearchParams({ ...queryParamsToSet, page: 1 });
       });
     }
-  }, []);
+  }, [setSearchParams, SearchCharacter, called, gender, name]);
 
-  const handleSubmit = (e: React.SyntheticEvent): void => {
+  const handleSubmit = (
+    e: React.SyntheticEvent,
+    newPageIndex?: number
+  ): void => {
     e.preventDefault();
-
-    if (inputValue.length === 0 && filterObject.gender === undefined) {
-      console.log("not making call");
-      return;
-    }
 
     SearchCharacter({
       variables: {
         filter: {
-          name: inputValue,
-          ...filterObject,
+          name: inputValue || name,
+          gender: filterObject.gender || gender || null,
         },
+        page: newPageIndex || 1,
       },
+    }).then(() => {
+      const queryParamsToSet: ISetSearchParamData = {};
+      queryParamsToSet.name = !!inputValue ? inputValue : name;
+
+      if (!!gender || !!filterObject.gender) {
+        queryParamsToSet.gender = filterObject.gender || gender;
+      }
+
+      setSearchParams({
+        ...queryParamsToSet,
+        page: newPageIndex || 1,
+      });
+
+      if (!newPageIndex) setPageIndex(1);
     });
 
-    const paramData: any = { ...filterObject, name: inputValue };
-    const queryParamString = Object.keys(paramData)
-      .map((key) => paramData[key] && key + "=" + paramData[key])
-      .join("&")
-      .replace(/.$/, "");
-
-    setSearchParams(queryParamString);
     if (showFilterDropdown) setShowFilterDropdown(false);
     setInputValue("");
     setFilterObject({});
+    return;
+  };
+
+  const fetchNextPage = (e: React.SyntheticEvent): void => {
+    setPageIndex(pageIndex + 1);
+    return handleSubmit(e, pageIndex + 1);
+  };
+
+  const fetchPreviousPage = (e: any): void => {
+    setPageIndex(pageIndex - 1);
+    return handleSubmit(e, pageIndex - 1);
   };
 
   if (error) return <h1>{error.message}</h1>;
   if (loading) return <Spinner />;
+
+  const showPagination = data?.characters?.info?.count > 20;
 
   return (
     <>
@@ -102,6 +132,25 @@ const Search = () => {
             />
           )}
         </SearchBarWrapper>
+
+        {data && showPagination && (
+          <PaginationContainer
+            nextButton={{
+              disableButton: !!data?.characters?.info.next,
+              handleClick: fetchNextPage,
+              buttonText: "Next",
+              type: "button",
+            }}
+            previousButton={{
+              disableButton: !!data?.characters?.info.prev,
+              handleClick: fetchPreviousPage,
+              buttonText: "Previous",
+              type: "button",
+            }}
+            pageIndex={pageIndex}
+          />
+        )}
+
         {data && data.characters.results.length === 0 && (
           <h1>No Characters found!</h1>
         )}

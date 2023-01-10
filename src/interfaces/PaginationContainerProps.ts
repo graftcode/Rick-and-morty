@@ -1,13 +1,15 @@
 export interface PaginationContainerProps {
   nextButton: {
     disableButton: boolean;
-    handleClick: () => void;
+    handleClick: any;
     buttonText: string;
+    type?: string;
   };
   previousButton: {
     disableButton: boolean;
-    handleClick: () => void;
+    handleClick: any;
     buttonText: string;
+    type?: string;
   };
   pageIndex: number;
 }
