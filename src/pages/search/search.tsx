@@ -19,30 +19,23 @@ import Spinner from "../../components/spinner/spinner";
 import { ICharacterData } from "../../interfaces/ICharacterData";
 import { DROPDOWN_OPTIONS } from "../../consts/dropdownOptions";
 import { useGetCharacters } from "../../hooks/useGetCharacters";
-import { queryParser } from "../../components/helper/queryParser";
 
 const Search = () => {
+  const [searchParams, setSearchParams]: any = useSearchParams();
+  const { name, gender } = Object.fromEntries([...searchParams]);
+
   const [inputValue, setInputValue] = useState<string>("");
   const [filterObject, setFilterObject] = useState<{ gender?: string }>({});
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-  const [_, setSearchParams] = useSearchParams();
 
-  const [SearchCharacter, { data, error, loading, called }] =
-    useGetCharacters();
+  const [SearchCharacter, { data, error, loading }] = useGetCharacters();
 
   //if accepted params available make call after initial render
   useEffect(() => {
-    const params = queryParser(window.location.href);
-
-    if (!called && (params.name || params.gender)) {
-      setInputValue(params.name);
-      setFilterObject({
-        gender: params.gender,
-      });
-
+    if (name || gender) {
       const dataToQuery: any = {};
-      if (params.name) dataToQuery.name = params.name;
-      if (params.gender) dataToQuery.gender = params.gender;
+      if (name) dataToQuery.name = name;
+      if (gender) dataToQuery.gender = gender;
 
       SearchCharacter({
         variables: {
