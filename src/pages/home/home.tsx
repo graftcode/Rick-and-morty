@@ -10,39 +10,27 @@ import { PageIndex, PaginationContainer, Title } from "./home.styles";
 import CharactersList from "../../components/charactersList/charactersList";
 import { useGetCharacters } from "../../hooks/useGetCharacters";
 
-import { queryParser } from "../../components/helper/queryParser";
-
 const Home = () => {
-  const [pageIndex, setPageIndex] = useState<number>(1);
-  const [_, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams]: any = useSearchParams();
+  const { page: searchPageParam } = Object.fromEntries([...searchParams]);
+
+  const isValidSearchPageParam = !isNaN(searchPageParam) && searchPageParam > 0;
+
+  const initialPageIndex = isValidSearchPageParam ? Number(searchPageParam) : 1;
+  const [pageIndex, setPageIndex] = useState<number>(initialPageIndex);
 
   const [getCharacters, { data, error, loading, called }] = useGetCharacters();
 
   useEffect(() => {
-    const params = queryParser(window.location.href);
-    // using "called" to determine when to make initial call.
-    // initial call will use query param "page" in the call
-    if (!called && params.page) {
-      getCharacters({
-        variables: {
-          page: Number(params.page),
-        },
-      }).then(({ data }) => {
-        const { characters } = data;
-        setPageIndex(Number(params.page));
-        setSearchParams(`page=${characters.info.next - 1}`);
-      });
-    } else {
-      getCharacters({
-        variables: {
-          page: pageIndex,
-        },
-      }).then(({ data }) => {
-        const { characters } = data;
-        setSearchParams(`page=${characters.info.next - 1}`);
-      });
-    }
-  }, [getCharacters, pageIndex, setSearchParams, called]);
+    getCharacters({
+      variables: {
+        page: pageIndex,
+      },
+    }).then(({ data }) => {
+      const { characters } = data;
+      setSearchParams(`page=${characters.info.next - 1}`);
+    });
+  }, [pageIndex, searchPageParam]);
 
   const fetchNextPage = (): void => {
     setPageIndex(pageIndex + 1);
