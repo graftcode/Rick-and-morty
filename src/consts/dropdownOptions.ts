@@ -3,18 +3,18 @@
 export const DROPDOWN_OPTIONS = {
   Female: {
     type: "radio",
-    name: "gender",
+    name: "Female",
   },
   Male: {
     type: "radio",
-    name: "gender",
+    name: "Male",
   },
   Genderless: {
     type: "radio",
-    name: "genderless",
+    name: "Genderless",
   },
   Unknown: {
     type: "radio",
-    name: "gender",
+    name: "Unknown",
   },
 };

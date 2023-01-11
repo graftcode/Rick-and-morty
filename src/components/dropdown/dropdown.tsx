@@ -16,7 +16,7 @@ const Dropdowon: React.FC<{
             name={dropdownOptions[option].name}
             onClick={() => handleOption(dropdownOptions[option].name)}
           />
-          {option}
+          {dropdownOptions[option].name}
         </label>
       ))}
     </DropdownWrapper>
