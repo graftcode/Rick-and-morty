@@ -40,7 +40,7 @@ const Search = () => {
   //if accepted params available make call after initial render
   useEffect(() => {
     if (!called && (genderParam || nameParam)) {
-      const dataToQuery: any = {};
+      const dataToQuery: ISetSearchParamData = {};
       if (nameParam) dataToQuery.name = nameParam;
       if (genderParam) dataToQuery.gender = genderParam;
 
@@ -52,10 +52,7 @@ const Search = () => {
           page: 1,
         },
       }).then((res) => {
-        const queryParamsToSet: ISetSearchParamData = {};
-        if (nameParam) queryParamsToSet.name = nameParam;
-        if (genderParam) queryParamsToSet.gender = genderParam;
-        setSearchParams({ ...queryParamsToSet, page: 1 });
+        setSearchParams({ ...dataToQuery, page: 1 });
       });
     }
   }, [setSearchParams, SearchCharacter, called, genderParam, nameParam]);
@@ -65,33 +62,35 @@ const Search = () => {
     newPageIndex?: number
   ): void => {
     e.preventDefault();
-    const queryParamsToSet: ISetSearchParamData = {};
+    const dataToQuery: ISetSearchParamData | any = {};
 
     // new page index suggest prev/next button used. therefore take data from param
     //deciding whether pass param info or state info to gql query
     if (newPageIndex) {
-      if (!!genderParam) queryParamsToSet.gender = genderParam;
-      if (!!genderValue) queryParamsToSet.gender = genderValue;
-      if (!!nameParam) queryParamsToSet.name = nameParam;
+      // what to include in query
+      if (!!genderParam) dataToQuery.gender = genderParam;
+      if (!!genderValue) dataToQuery.gender = genderValue;
+      if (!!nameParam) dataToQuery.name = nameParam;
     } else {
+      // else grabbing state data only
       if (!!inputValue) {
-        queryParamsToSet.name = inputValue;
+        dataToQuery.name = inputValue;
       }
       if (!!genderValue) {
-        queryParamsToSet.gender = genderValue;
+        dataToQuery.gender = genderValue;
       }
     }
 
     SearchCharacter({
       variables: {
         filter: {
-          ...queryParamsToSet,
+          ...dataToQuery,
         },
         page: newPageIndex || 1,
       },
     }).then(() => {
       setSearchParams({
-        ...queryParamsToSet,
+        ...dataToQuery,
         page: newPageIndex || 1,
       });
       if (!newPageIndex) setPageIndex(1);
@@ -100,7 +99,6 @@ const Search = () => {
     setShowFilterDropdown(false);
     setInputValue("");
     setGenderValue("");
-    return;
   };
 
   const fetchNextPage = (e: React.SyntheticEvent): void => {

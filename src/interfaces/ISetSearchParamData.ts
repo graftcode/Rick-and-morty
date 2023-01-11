@@ -1,5 +1,5 @@
 export interface ISetSearchParamData {
   gender?: string | undefined;
   name?: string | undefined;
-  page?: number;
+  page?: number | undefined;
 }
