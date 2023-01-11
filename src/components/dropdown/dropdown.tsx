@@ -3,7 +3,7 @@ import React from "react";
 import { DropdownWrapper } from "./dropdown.styles";
 
 const Dropdowon: React.FC<{
-  handleOption: React.Dispatch<React.SetStateAction<{}>>;
+  handleOption: React.Dispatch<React.SetStateAction<string>>;
   dropdownOptions: any;
 }> = ({ handleOption, dropdownOptions }) => {
   return (
@@ -14,12 +14,7 @@ const Dropdowon: React.FC<{
             value={option}
             type={dropdownOptions[option].type}
             name={dropdownOptions[option].name}
-            onClick={() =>
-              handleOption((prev) => ({
-                ...prev,
-                [dropdownOptions[option].name]: option,
-              }))
-            }
+            onClick={() => handleOption(dropdownOptions[option].name)}
           />
           {option}
         </label>

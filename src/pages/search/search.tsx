@@ -25,10 +25,12 @@ import { ISetSearchParamData } from "../../interfaces/ISetSearchParamData";
 
 const Search = () => {
   const [searchParams, setSearchParams]: any = useSearchParams();
-  const { name, gender } = Object.fromEntries([...searchParams]);
+  const { name: nameParam, gender: genderParam } = Object.fromEntries([
+    ...searchParams,
+  ]);
 
   const [inputValue, setInputValue] = useState<string>("");
-  const [filterObject, setFilterObject] = useState<{ gender?: string }>({});
+  const [genderValue, setGenderValue] = useState<string>("");
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [pageIndex, setPageIndex] = useState<number>(1);
 
@@ -37,58 +39,67 @@ const Search = () => {
 
   //if accepted params available make call after initial render
   useEffect(() => {
-    if (!called && (gender || name)) {
+    if (!called && (genderParam || nameParam)) {
       const dataToQuery: any = {};
-      if (name) dataToQuery.name = name;
-      if (gender) dataToQuery.filter = { gender };
+      if (nameParam) dataToQuery.name = nameParam;
+      if (genderParam) dataToQuery.gender = genderParam;
 
       SearchCharacter({
         variables: {
           filter: { ...dataToQuery },
+          // not accepting page param on initial gql request.
+          // just accepting name gender
           page: 1,
         },
       }).then((res) => {
         const queryParamsToSet: ISetSearchParamData = {};
-        if (name) queryParamsToSet.name = name;
-        if (gender) queryParamsToSet.gender = gender;
+        if (nameParam) queryParamsToSet.name = nameParam;
+        if (genderParam) queryParamsToSet.gender = genderParam;
         setSearchParams({ ...queryParamsToSet, page: 1 });
       });
     }
-  }, [setSearchParams, SearchCharacter, called, gender, name]);
+  }, [setSearchParams, SearchCharacter, called, genderParam, nameParam]);
 
   const handleSubmit = (
     e: React.SyntheticEvent,
     newPageIndex?: number
   ): void => {
     e.preventDefault();
+    const queryParamsToSet: ISetSearchParamData = {};
+
+    // new page index suggest prev/next button used. therefore take data from param
+    //deciding whether pass param info or state info to gql query
+    if (newPageIndex) {
+      if (!!genderParam) queryParamsToSet.gender = genderParam;
+      if (!!genderValue) queryParamsToSet.gender = genderValue;
+      if (!!nameParam) queryParamsToSet.name = nameParam;
+    } else {
+      if (!!inputValue) {
+        queryParamsToSet.name = inputValue;
+      }
+      if (!!genderValue) {
+        queryParamsToSet.gender = genderValue;
+      }
+    }
 
     SearchCharacter({
       variables: {
         filter: {
-          name: inputValue || name,
-          gender: filterObject.gender || gender || null,
+          ...queryParamsToSet,
         },
         page: newPageIndex || 1,
       },
     }).then(() => {
-      const queryParamsToSet: ISetSearchParamData = {};
-      queryParamsToSet.name = !!inputValue ? inputValue : name;
-
-      if (!!gender || !!filterObject.gender) {
-        queryParamsToSet.gender = filterObject.gender || gender;
-      }
-
       setSearchParams({
         ...queryParamsToSet,
         page: newPageIndex || 1,
       });
-
       if (!newPageIndex) setPageIndex(1);
     });
 
-    if (showFilterDropdown) setShowFilterDropdown(false);
+    setShowFilterDropdown(false);
     setInputValue("");
-    setFilterObject({});
+    setGenderValue("");
     return;
   };
 
@@ -127,7 +138,7 @@ const Search = () => {
           </SearchFieldButton>
           {showFilterDropdown && (
             <Dropdowon
-              handleOption={setFilterObject}
+              handleOption={setGenderValue}
               dropdownOptions={DROPDOWN_OPTIONS}
             />
           )}
