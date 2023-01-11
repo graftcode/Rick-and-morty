@@ -18,4 +18,5 @@ export const PaginationWrapper = styled.div`
   gap: 20px;
   max-width: ${rem(800)};
   margin: 0 auto ${rem(50)};
+  width: 100%;
 `;

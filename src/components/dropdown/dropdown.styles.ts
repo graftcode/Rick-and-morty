@@ -5,7 +5,7 @@ export const DropdownWrapper = styled.div`
   position: absolute;
   padding: ${rem(10)};
   right: 0;
-  top: 110%;
+  top: 40%;
   border: ${rem(2)} solid ${({ theme }) => theme.colors["battleship-grey"]};
   background: ${({ theme }) => theme.colors["battleship-grey"]};
   color: white;
