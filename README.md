@@ -92,4 +92,4 @@ Things covered:
 - [x] - Each list entry page would include character information and pictures.
 - [x] - Use simple "Previous" and "Next" buttons for pagination.
 - [x] - Add the ability to filter by character name and gender.
-- [x] - Routing: When the page or filter changes, we want you to update the URL to include the page number and filter. If the user refreshes or shares the link of the page, the page should be at the correct position and filters should be pre-selected.
+- [x] - Routing: When the page or filter changes, URL updates to include the page number and filter. If the user refreshes or shares the link of the page, the page should be at the correct position and filters should be pre-selected.
